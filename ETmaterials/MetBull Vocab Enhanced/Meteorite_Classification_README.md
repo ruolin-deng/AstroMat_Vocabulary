@@ -12,14 +12,9 @@
 1. [Overview](#overview)
 2. [Database Structure](#database-structure)
 3. [Column Descriptions](#column-descriptions)
-4. [Classification Hierarchy](#classification-hierarchy)
-5. [Material Types](#material-types)
-6. [Type Categories](#type-categories)
-7. [Understanding Classification Details](#understanding-classification-details)
-8. [Special Classifications](#special-classifications)
-9. [Data Quality & Curation](#data-quality--curation)
-10. [Usage Examples](#usage-examples)
-11. [Technical Notes](#technical-notes)
+4. [Classification Parameters](#classification-parameters)
+5. [Data Quality & Curation](#data-quality--curation)
+6. [Technical Notes](#technical-notes)
 
 ---
 
@@ -27,7 +22,7 @@
 
 This database contains a hierarchical classification of 85,701 meteorites from the Meteorite Bulletin Database (MetBull).
 
-### Key Features
+### a. Key Features
 
 - **4-level hierarchical structure**: Material → Type → (Class →) Group → Subgroup
 - **Genetic relationships preserved** via Parent Body and Clan labels
@@ -38,13 +33,13 @@ This database contains a hierarchical classification of 85,701 meteorites from t
 
 ## Database Structure
 
-### File Format
+### a. File Format
 - **Format:** CSV (comma-separated values)
 - **Encoding:** UTF-8
 - **Total Rows:** 85,701 (excluding header)
 - **Total Columns:** 21
 
-### Hierarchical Levels
+### b. Hierarchical Levels
 
 ```
 Material (Level 0)
@@ -62,7 +57,7 @@ Labels (non-hierarchical, searchable):
 
 ## Column Descriptions
 
-### Column Order Reference
+### a. Column Order Reference
 
 ```
 1.  name
@@ -70,11 +65,11 @@ Labels (non-hierarchical, searchable):
 3.  recclass
 4.  Material          ← Hierarchy Level 0
 5.  Type              ← Hierarchy Level 1
-6.  Class             ← Hierarchy Level 2
-7.  Clan              ← Label (searchable, not hierarchical)
-8.  Group             ← Hierarchy Level 3
-9.  Subgroup          ← Hierarchy Level 4 (= recclass)
-10. Classification_Details  ← Explanations
+6.  Class             ← Hierarchy Level 2 (when applicable)
+7.  Group             ← Hierarchy Level 3
+8.  Subgroup          ← Hierarchy Level 4 (= recclass)
+9.  Classification_Details  ← Explanations
+10. Clan              ← Label (searchable, not hierarchical)
 11. Parent_Body       ← Label (searchable, not hierarchical)
 12. fall
 13. year
@@ -89,7 +84,7 @@ Labels (non-hierarchical, searchable):
 
 ---
 
-### 1. Core Identification Columns (from original MetBull)
+### a. Core Identification Columns (from original MetBull)
 
 | Column | Description | Example | Data Type |
 |--------|-------------|---------|-----------|
@@ -97,11 +92,11 @@ Labels (non-hierarchical, searchable):
 | `id` | Unique MetBull identifier | "2" | Integer |
 | `recclass` | Original MetBull classification code | "CV3" | String |
 
-### 2. Hierarchical Classification Columns (New)
+### b. Hierarchical Classification Columns (New)
 
 | Column | Level | Description | Example | Required |
 |--------|-------|-------------|---------|----------|
-| `Material` | 0 | Physical composition category | "stony" | Yes |
+| `Material` | 0 | Physical composition category | "Stony" | Yes |
 | `Type` | 1 | Formation/differentiation classification | "Chondrite" | Yes |
 | `Class` | 2 | Chemical/compositional grouping | "Carbonaceous Chondrite" | No* |
 | `Group` | 3 | Specific meteorite group | "CV" | No* |
@@ -109,7 +104,7 @@ Labels (non-hierarchical, searchable):
 
 *Only populated when scientifically applicable. 70,468 out of the total of 85,701 meteorites have "Class"; 78,501 out of the total of 85,701 meteorites have "Group".
 
-### 3. Label Columns (Non-Hierarchical) (New)
+### c. Label Columns (Non-Hierarchical) (New)
 
 | Column | Description | Example | Purpose |
 |--------|-------------|---------|---------|
@@ -118,13 +113,13 @@ Labels (non-hierarchical, searchable):
 
 Note: These two can potentially be combined to reduce sparcity of the dataset.
 
-### 4. Explanation Column (New)
+### d. Explanation Column (New)
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | `Classification_Details` | Human-readable explanations of suffixes, petrologic types, and abbreviations | "petrologic type 3 (unequilibrated, least metamorphosed)" |
 
-### 5. Physical & Discovery Metadata (from original MetBull)
+### e. Physical & Discovery Metadata (from original MetBull)
 
 | Column | Description | Data Type | Values |
 |--------|-------------|-----------|--------|
@@ -135,7 +130,7 @@ Note: These two can potentially be combined to reduce sparcity of the dataset.
 | `mass` | Mass in grams | Float | 100.5 |
 | `geolocation` | Coordinate string | String | "(-33.166, -64.95)" |
 
-### 6. Legacy Metadata (from original MetBull)
+### f. Legacy Metadata (from original MetBull)
 
 | Column | Description |
 |--------|-------------|
@@ -145,53 +140,23 @@ Note: These two can potentially be combined to reduce sparcity of the dataset.
 
 ---
 
-## Classification Hierarchy
+## Classification Parameters
 
-### Material-First Design Rationale
-
-The Material-First hierarchy was chosen because it:
-
-1. **Visually balances** the classification tree (4 main branches vs 6-8 in Type-First)
-2. **Is intuitive** for public/educational users
-3. **Preserves genetic relationships** through Parent Body and Clan labels
-4. **Provides clear ungrouped categories** by material type
-
-### Hierarchical Filtering Example
-
-To find all iron meteorites from the IAB complex that are primitive:
-
-```
-Material = "iron" 
-  → Type = "Primitive iron"
-    → Group = "IAB"
-      → Subgroup = "Iron, IAB-MG" (or other IAB subtypes)
-```
-
----
-
-## Material Types
-
-### Distribution by Material
+### a. Material
 
 | Material | Count | Percentage | Description |
 |----------|-------|------------|-------------|
-| **stony** | 78,446 | 91.5% | Silicate-dominated meteorites |
-| **iron** | 1,442 | 1.7% | Iron-nickel metal dominated |
-| **stony-iron** | 612 | 0.7% | Mixed silicate and metal |
+| **Stony** | 78,446 | 91.5% | Silicate-dominated meteorites |
+| **Iron** | 1,442 | 1.7% | Iron-nickel metal dominated |
+| **Stony-iron** | 612 | 0.7% | Mixed silicate and metal |
 | **Unknown** | 5,201 | 6.1% | Unclassified or uncertain material |
 
-### Material Definitions
-
-- **stony**: Meteorites dominated by silicate minerals
-- **iron**: Meteorites dominated by Fe-Ni metal
-- **stony-iron**: Meteorites with roughly equal proportions of silicate and metal
+- **Stony**: Meteorites dominated by silicate minerals
+- **Iron**: Meteorites dominated by Fe-Ni metal
+- **Stony-iron**: Meteorites with roughly equal proportions of silicate and metal
 - **Unknown**: Material cannot be determined (unclassified, doubtful, or incomplete specimens)
 
----
-
-## Type Categories
-
-### All Type Values (14 total)
+### b. Type (14 total)
 
 | Type | Count | Material | Description |
 |------|-------|----------|-------------|
@@ -210,24 +175,11 @@ Material = "iron"
 | **Relict unknown** | 1 | Unknown | Fragmented meteorite of unknown type |
 | **Unknown** | 4,993 | Unknown | Unclassified specimens |
 
-### Type Distinctions
-
-#### Chondrites vs Achondrites
-- **Chondrites**: Contain chondrules (small spherical inclusions); primitive/unmelted
-- **Achondrites**: No chondrules; formed from differentiated parent bodies
-- **Primitive achondrites**: Intermediate; partially melted or melt residues
-
-#### Primitive vs Differentiated Irons
-- **Primitive iron** (IAB and IAB complex): Non-magmatic; contains silicate inclusions; winonaite affinity
-- **Differentiated iron** (e.g., IIE, IIIAB): Formed in planetary cores or impact-melt processes
-
----
-
-## Understanding Classification Details
+### c. Explanatory Notes
 
 The `Classification_Details` column provides human-readable explanations for:
 
-### 1. Petrologic Types (Metamorphic Grade)
+### I. Petrologic Types (Metamorphic Grade)
 
 | Type | Meaning | Explanation |
 |------|---------|-------------|
@@ -241,7 +193,7 @@ The `Classification_Details` column provides human-readable explanations for:
 
 **Subtypes:** Decimal values (e.g., 3.0, 3.1, ... 3.9) provide finer gradations within type 3.
 
-### 2. IAB Iron Subgroups (Chemical Classification)
+### II. IAB Iron Subgroups (Chemical Classification)
 
 | Code | Meaning | Gold (Au) | Nickel (Ni) |
 |------|---------|-----------|-------------|
@@ -252,7 +204,7 @@ The `Classification_Details` column provides human-readable explanations for:
 | **sHL** | Subgroup | High | Low |
 | **sHH** | Subgroup | High | High |
 
-### 3. Breccia Types (Texture)
+### III. Breccia Types (Texture)
 
 | Code | Meaning |
 |------|---------|
@@ -264,14 +216,14 @@ The `Classification_Details` column provides human-readable explanations for:
 | **melt rock** | Impact melt rock |
 | **imp melt** | Impact melt |
 
-### 4. Pallasite Groups
+### IV. Pallasite Groups
 
 | Code | Meaning | Count |
 |------|---------|-------|
 | **PMG** | Main group pallasite (most common pallasites) | 77 |
 | **PES** | Eagle Station group (rare, iron-rich olivine, different parent body) | 7 |
 
-### 5. Lunar Rock Types
+### V. Lunar Rock Types
 
 | Abbreviation | Full Name | Description |
 |--------------|-----------|-------------|
@@ -282,7 +234,7 @@ The `Classification_Details` column provides human-readable explanations for:
 | **gabbr** | Gabbro | Pyroxene-plagioclase intrusive rock |
 | **feldsp** | Feldspathic | Feldspar-rich |
 
-### 6. CV Chondrite Subtypes
+### VI. CV Chondrite Subtypes
 
 | Code | Meaning | Characteristics |
 |------|---------|-----------------|
@@ -291,7 +243,7 @@ The `Classification_Details` column provides human-readable explanations for:
 | **CVoxB** | Oxidized Bali-like | More hydrated, contains pure fayalite |
 | **CVred** | Reduced CV | Higher metal, lower magnetite; different parent body |
 
-### 7. Mesosiderite Subtypes
+### VII. Mesosiderite Subtypes
 
 | Type | Description |
 |------|-------------|
@@ -299,7 +251,7 @@ The `Classification_Details` column provides human-readable explanations for:
 | **B, B1-B4** | Metal-rich variants |
 | **C, C2-C3** | Intermediate metal content |
 
-### 8. Classification Status
+### VIII. Classification Status
 
 | Code | Meaning |
 |------|---------|
@@ -310,28 +262,9 @@ The `Classification_Details` column provides human-readable explanations for:
 
 ---
 
-## Special Classifications
-
-### Genetic Relationships (Parent Body Label)
-
-The `Parent_Body` column preserves genetic relationships independent of the hierarchy:
-
-| Parent Body | Count | Groups Included |
-|-------------|-------|-----------------|
-| **Vesta** | 3,313 | HED meteorites (howardites, eucrites, diogenites) |
-| **Moon** | 804 | Lunar meteorites |
-| **Mars** | 419 | Martian meteorites (SNCs) |
-| **IAB/Winonaite parent** | 497 | IAB irons (392) + Winonaites (105) |
-
-**Example:** IAB irons and winonaites share a parent body but appear in different parts of the hierarchy:
-- IAB irons: Material = "iron", Type = "Primitive iron"
-- Winonaites: Material = "stony", Type = "Primitive achondrite"
-
----
-
 ## Data Quality & Curation
 
-### Removed Entries (489 total)
+### a. Removed Entries (489 total)
 
 The following non-meteorite entries were removed from the original MetBull dataset:
 
@@ -341,7 +274,7 @@ The following non-meteorite entries were removed from the original MetBull datas
 | **Terrestrial rock** | 228 | Confirmed Earth rocks |
 | **Pseudometeorite** | 71 | Terrestrial rocks mistaken for meteorites |
 
-### Data Quality Notes
+### b. Data Quality Notes
 
 - **Classification_Details coverage:** 100% of meteorites (all meteorites now have explanations or are simple enough not to need them)
 - **Uncertain classifications:** Petrologic types with "(?)notation (e.g., H(5?), LL6(?)) are preserved and explained
@@ -351,14 +284,14 @@ The following non-meteorite entries were removed from the original MetBull datas
 
 ## Technical Notes
 
-### For Database Implementation
+### a. For Database Implementation
 
 1. **Primary Key:** Use `id` (MetBull unique identifier)
 2. **Indexes:** Recommended on `Material`, `Type`, `Group`, `Parent_Body`, `Clan` for fast filtering
 3. **Full-Text Search:** Index `Classification_Details` for detailed suffix/explanation searches
 4. **Hierarchical Queries:** Use Material → Type → Class → Group → Subgroup for drill-down interfaces
 
-### For Web Interface Design
+### b. For Web Interface Design
 
 **Recommended Filtering UI:**
 
