@@ -62,6 +62,33 @@ Labels (non-hierarchical, searchable):
 
 ## Column Descriptions
 
+### Column Order Reference
+
+```
+1.  name
+2.  id
+3.  recclass
+4.  Material          ← Hierarchy Level 0
+5.  Type              ← Hierarchy Level 1
+6.  Class             ← Hierarchy Level 2
+7.  Clan              ← Label (searchable, not hierarchical)
+8.  Group             ← Hierarchy Level 3
+9.  Subgroup          ← Hierarchy Level 4 (= recclass)
+10. Classification_Details  ← Explanations
+11. Parent_Body       ← Label (searchable, not hierarchical)
+12. fall
+13. year
+14. reclat
+15. reclong
+16. mass
+17. geolocation
+18. nametype
+19. recclass_orig
+20. GeoLocation
+```
+
+---
+
 ### 1. Core Identification Columns (from original MetBull)
 
 | Column | Description | Example | Data Type |
@@ -354,33 +381,6 @@ Stony (78,446)
 │  └─ Enstatite Chondrite (713)
 ...
 ```
-
-## Column Order Reference
-
-```
-1.  name
-2.  id
-3.  recclass
-4.  Material          ← Hierarchy Level 0
-5.  Type              ← Hierarchy Level 1
-6.  Class             ← Hierarchy Level 2
-7.  Clan              ← Label (searchable, not hierarchical)
-8.  Group             ← Hierarchy Level 3
-9.  Subgroup          ← Hierarchy Level 4 (= recclass)
-10. Classification_Details  ← Explanations
-11. Parent_Body       ← Label (searchable, not hierarchical)
-12. fall
-13. year
-14. reclat
-15. reclong
-16. mass
-17. geolocation
-18. nametype
-19. recclass_orig
-20. GeoLocation
-```
-
----
 
 ## References & Resources
 
