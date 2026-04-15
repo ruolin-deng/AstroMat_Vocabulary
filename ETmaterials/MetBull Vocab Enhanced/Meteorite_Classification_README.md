@@ -1,8 +1,9 @@
-# Meteorite Classification Database: Material-First Hierarchy
+# Meteorite Classification Database: Material-First Hierarchy v1.0
 
 **Version:** 1.0  
 **Last Updated:** April 14, 2026  
-**Database File:** `Meteorite_Classification_MaterialFirst.csv`  
+**Database File:** `Meteorite_Classification_MaterialFirst v1.0.csv`  
+**Prepared by:** Ruolin Deng  
 **Total Meteorites:** 85,701
 
 ---
@@ -15,6 +16,9 @@
 4. [Classification Parameters](#classification-parameters)
 5. [Data Quality & Curation](#data-quality--curation)
 6. [Technical Notes](#technical-notes)
+7. [References & Resources](#references--resources)
+8. [Version History](#version-history)
+
 
 ---
 
@@ -30,6 +34,7 @@ This database contains a hierarchical classification of 85,701 meteorites from t
 - **Meteorite exclusive**: Non-meteorite entries (pseudometeorites, impact craters, terrestrial rocks) removed from original MetBull glossary
 
 ---
+
 
 ## Database Structure
 
@@ -151,11 +156,6 @@ Note: These two can potentially be combined to reduce sparcity of the dataset.
 | **Stony-iron** | 612 | 0.7% | Mixed silicate and metal |
 | **Unknown** | 5,201 | 6.1% | Unclassified or uncertain material |
 
-- **Stony**: Meteorites dominated by silicate minerals
-- **Iron**: Meteorites dominated by Fe-Ni metal
-- **Stony-iron**: Meteorites with roughly equal proportions of silicate and metal
-- **Unknown**: Material cannot be determined (unclassified, doubtful, or incomplete specimens)
-
 ### b. Type (14 total)
 
 | Type | Count | Material | Description |
@@ -175,7 +175,18 @@ Note: These two can potentially be combined to reduce sparcity of the dataset.
 | **Relict unknown** | 1 | Unknown | Fragmented meteorite of unknown type |
 | **Unknown** | 4,993 | Unknown | Unclassified specimens |
 
-### c. Explanatory Notes
+### c. Class (3 total)
+
+**Class** only applies to a subset of chondrites (carbonaceous chondrites, ordinary chondrites, and enstatite chondrites, but not Group R or Group K chondrites), which covers 70,468 out of a total of 85,701 meteorites in the list.
+
+### d. Group (61 total)
+
+**Group** applies to all meteorites that have been properly classified to the group level, which include a total of 78,501 meteorites out of a total of 85,701 meteorites in the list.
+
+### e. Subgroup
+**Subgroup** is the same as **recclass** in the original MetBull glossary and is the lowest layer of classification.
+
+### f. Explanatory Notes
 
 The `Classification_Details` column provides human-readable explanations for:
 
@@ -337,8 +348,3 @@ Stony (78,446)
 - Classification_Details explanations added for all suffixes
 
 ---
-
-## Author
-
-**Prepared by:** Ruolin Deng  
-**Date:** April 14, 2026
